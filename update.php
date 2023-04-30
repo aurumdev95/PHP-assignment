@@ -1,25 +1,17 @@
 <?php
 include "crud.php";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // collect value of input field
-    $name = $_REQUEST['fname'];
-    if (empty($name)) {
-        echo "Name is empty";
-    } else {
-        echo $name;
-    }
-}
+
+
+$id = $_GET['id'];
+
+
+$data = getUser($id)[0];
+
+
+
 // if (isset($_POST['submit'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // echo "test";
-    echo "<script>form submited</script>";
-
-    // $first_name = $_POST['fname'];
-    // $last_name = $_POST['lname'];
-    // $email = $_POST['email'];
-    // $password = $_POST['password'];
-    // $gender = $_POST['gender'];
-    // $phone = $_POST['phone'];
+    // $id = $_GET['id'];
     $first_name = $_REQUEST['fname'];
     $last_name = $_REQUEST['lname'];
     $email = $_REQUEST['email'];
@@ -27,9 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gender = $_REQUEST['gender'];
     $phone = $_REQUEST['phone'];
     $fullname = $first_name . ' ' . $last_name;
-    $res = createUser($fullname, $phone, $email, $password, $gender);
+    $res = updateUser($id, $fullname, $phone, $email, $password, $gender);
     if ($res) {
-        header("Location: http://localhost/phpLearn/assignment/PHP-assignment/index.php", true, 302);
+        header("Location: http://localhost/phpLearn/assignment3/PHP-assignment/home.php", true, 302);
     } else {
         echo "<script>alert('error has occured');</script>";
     }
@@ -53,38 +45,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>PHP CRUD</h1>
     </header>
     <main class="container-fluid d-flex flex-column justify-content-center">
-        <form class="container bg-white p-3 mt-3" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <form class="container bg-white p-3 mt-3" action="<?php echo $_SERVER['PHP_SELF']."?id=$id"; ?>" method="post">
             <div class="d-flex justify-content-between align-items-center">
-                <h2>update User</h2><a href="index.php" class="btn btn-primary">back Home</a>
+                <h2>update User</h2><a href="http://localhost/phpLearn/assignment3/PHP-assignment/home.php" class="btn btn-primary">back Home</a>
             </div>
             <div class="form-group row">
                 <label for="FirstName" class="col-sm-2 col-form-label">First name</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="FirstName" placeholder="First Name" name="fname" required>
+                    <input type="text" class="form-control" value="<?php echo explode(' ', $data["full_names"])[0] ?>" id="FirstName" placeholder="First Name" name="fname" required>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="LastName" class="col-sm-2 col-form-label">Last name</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="LastName" placeholder="last name" name="lname" required>
+                    <input type="text" class="form-control" id="LastName" value="<?php echo explode(' ', $data["full_names"])[1] ?>" placeholder="last name" name="lname" required>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email" name="email" required>
+                    <input type="email" class="form-control" value="<?php echo $data["email"] ?>" id="inputEmail3" placeholder="Email" name="email" required>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password" name="password" required>
+                    <input type="password" class="form-control" value="<?php echo $data["password"] ?>" id="inputPassword3" placeholder="Password" name="password" required>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputPhone3" class="col-sm-2 col-form-label">Phone</label>
                 <div class="col-sm-10">
-                    <input type="tel" class="form-control" id="inputPhone3" placeholder="Phone" name="phone" required minlength="10" maxlength="10">
+                    <input type="tel" class="form-control" id="inputPhone3" value="<?php echo $data["phone"] ?>" placeholder="Phone" name="phone" required minlength="10" maxlength="10">
                 </div>
             </div>
             <fieldset class="form-group">
@@ -92,13 +84,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <legend class="col-form-label col-sm-2 pt-0">gender</legend>
                     <div class="col-sm-10">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="gridRadios1" value="male" checked>
+                            <input class="form-check-input" type="radio" name="gender" id="gridRadios1" value="male" <?php if ($data['gender'] == "male") {
+                                                                                                                            echo "checked";
+                                                                                                                        } ?>>
                             <label class="form-check-label" for="gridRadios1">
                                 male
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="gridRadios2" value="female">
+                            <input class="form-check-input" type="radio" name="gender" id="gridRadios2" value="female" <?php if ($data['gender'] == "female") {
+                                                                                                                            echo "checked";
+                                                                                                                        } ?>>
                             <label class="form-check-label" for="gridRadios2">
                                 female
                             </label>
@@ -108,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </fieldset>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </div>
         </form>

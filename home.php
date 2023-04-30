@@ -39,8 +39,7 @@
                         echo "<td>".$row['phone']."</td>";
                         echo "<td>".$row['password']."</td>";
                         echo "<td>".$row['gender']."</td>";
-
-                        echo "<td><button class='btn btn-primary'>update</button></td>";
+                        echo "<td><a href='update.php/?id=".$row["id"]."' class='btn btn-primary'>update</a></td>";
                         echo "<td><button class='btn btn-danger'>delete</button></td>";
                         echo "</tr>";
                     }
