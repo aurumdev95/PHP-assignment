@@ -1,14 +1,6 @@
 <?php
 include "crud.php";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // collect value of input field
-    $name = $_REQUEST['fname'];
-    if (empty($name)) {
-        echo "Name is empty";
-    } else {
-        echo $name;
-    }
-}
+
 // if (isset($_POST['submit'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // echo "test";
@@ -29,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $first_name . ' ' . $last_name;
     $res = createUser($fullname, $phone, $email, $password, $gender);
     if ($res) {
-        header("Location: http://localhost/phpLearn/assignment/PHP-assignment/index.php", true, 302);
+        header("Location: http://localhost/phpLearn/assignment3/PHP-assignment/home.php", true, 302);
     } else {
         echo "<script>alert('error has occured');</script>";
     }
@@ -55,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <main class="container-fluid d-flex flex-column justify-content-center">
         <form class="container bg-white p-3 mt-3" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Create a new user</h2><a href="index.php" class="btn btn-primary">back Home</a>
+                <h2>Create a new user</h2><a href="home.php" class="btn btn-primary">back Home</a>
             </div>
             <div class="form-group row">
                 <label for="FirstName" class="col-sm-2 col-form-label">First name</label>

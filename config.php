@@ -6,7 +6,7 @@ $username = "root";
 
 $password = getenv('DB_PASSWD'); 
 
-$dbname = "user_list"; 
+$dbname = getenv('DB_NAME'); 
 
 $GLOBALS['conn'] = new mysqli($servername, $username, $password, $dbname);
 

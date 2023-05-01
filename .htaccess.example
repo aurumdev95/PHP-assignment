@@ -1,0 +1,2 @@
+SetEnv DB_PASSWD "db_password"
+SetEnv DB_NAME "db_name"
