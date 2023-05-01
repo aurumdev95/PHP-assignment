@@ -1,5 +1,27 @@
+<?php
+include "crud.php";
+
+try {
+    $id = @$_GET['id'];
+    $res = deleteUser($id);
+} catch (Exception $e) {
+    echo "<script>{$e->getMessage()}</script>";
+}
+try {
+    $pdf = @$_GET['pdf'];
+    if ($pdf) {
+        generatePDF();
+    }
+} catch (Exception $e) {
+    echo "<script>{$e->getMessage()}</script>";
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +29,7 @@
     <title>PHP</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body class="bg-dark">
     <header class="container-fluid d-flex justify-content-center text-primary bg-light">
         <h1>PHP CRUD</h1>
@@ -23,24 +46,25 @@
                         <th scope="col">password</th>
                         <th scope="col">gender</th>
                         <th scope="col"><a href="create.php" class="btn btn-primary">add user</a></th>
-                        <th scope="col"><a href="#" class="btn btn-primary">export</a></th>
+                        <th scope="col"><a href="<?php echo $_SERVER['PHP_SELF']."?pdf=pdf"; ?>" class="btn btn-primary">export</a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php        
-                    include "crud.php";
+                    <?php
+
                     $data = getAllUsers();
                     foreach ($data as $row) {
                         echo "<tr>";
                         // echo "<td scope='row'>hello</td>";
-                        echo "<td scope='row'>".$row['id']."</td>";
-                        echo "<td>".$row['full_names']."</td>";
-                        echo "<td>".$row['email']."</td>";
-                        echo "<td>".$row['phone']."</td>";
-                        echo "<td>".$row['password']."</td>";
-                        echo "<td>".$row['gender']."</td>";
-                        echo "<td><a href='update.php/?id=".$row["id"]."' class='btn btn-primary'>update</a></td>";
-                        echo "<td><button class='btn btn-danger'>delete</button></td>";
+                        echo "<td scope='row'>" . $row['id'] . "</td>";
+                        echo "<td>" . $row['full_names'] . "</td>";
+                        echo "<td>" . $row['email'] . "</td>";
+                        echo "<td>" . $row['phone'] . "</td>";
+                        echo "<td>" . $row['password'] . "</td>";
+                        echo "<td>" . $row['gender'] . "</td>";
+                        echo "<td><a href='update.php/?id=" . $row["id"] . "' class='btn btn-primary'>update</a></td>";
+                        $url = $_SERVER['PHP_SELF']."?id=".$row['id'];
+                        echo "<td><a href=$url class='btn btn-danger'>delete</a></td>";
                         echo "</tr>";
                     }
                     $GLOBALS['conn']->close();
