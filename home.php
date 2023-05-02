@@ -44,7 +44,7 @@ try {
                         <th scope="col">last name</th>
                         <th scope="col">email</th>
                         <th scope="col">phone</th>
-                        <th scope="col">password</th>
+                        <!-- <th scope="col">password</th> -->
                         <th scope="col">gender</th>
                         <th scope="col"><a href="create.php" class="btn btn-primary">add user</a></th>
                         <th scope="col"><a href="<?php echo $_SERVER['PHP_SELF']."?pdf=pdf"; ?>" class="btn btn-primary">export</a></th>
@@ -63,7 +63,7 @@ try {
                             echo "<td>" . $row['last_name'] . "</td>";
                             echo "<td>" . $row['email'] . "</td>";
                             echo "<td>" . $row['phone'] . "</td>";
-                            echo "<td>" . $row['password'] . "</td>";
+                            // echo "<td>" . $row['password'] . "</td>";
                             echo "<td>" . $row['gender'] . "</td>";
                             echo "<td><a href='update.php/?id=" . $row["id"] . "' class='btn btn-primary'>update</a></td>";
                             $url = $_SERVER['PHP_SELF']."?id=".$row['id'];
@@ -71,7 +71,7 @@ try {
                             echo "</tr>";
                         }
                     } else {
-                        echo "<h3 class='text-light'>no users found, click add new users</h3>";
+                        echo "<h3 class='text-light'>no users found, click add new users insert new users.</h3>";
                     }
                     $GLOBALS['conn']->close();
                     ?>

@@ -4,7 +4,7 @@ require('fpdf.php');
 
 function getAllUsers()
 {
-    $sql = "SELECT `id`, `first_name`, `last_name`, `email`, `phone`, `password`, `gender` FROM users ORDER BY id DESC";
+    $sql = "SELECT `id`, `first_name`, `last_name`, `email`, `phone`, `gender` FROM users ORDER BY id DESC";
     $result = $GLOBALS['conn']->query($sql);
     $data = [];
     if ($result->num_rows > 0) {
@@ -78,16 +78,6 @@ class PDF extends FPDF {
     
     // Get data from the text file
 	function getDataFrmFile() {
-        
-        // // Read file lines
-		// $lines = file($file);
-	
-		// // Get a array for returning output data
-		// $data = array();
-	
-		// // Read each line and separate the semicolons
-		// foreach($lines as $line)
-		// 	$data[] = explode(';', chop($line));
         $data = getAllUsers();
 		return $data;
 	}
@@ -153,10 +143,12 @@ class PDF extends FPDF {
 function generatePDF()
 {
     $pdf = new PDF();
-	$header = array("id","first name", "last name", 'email','phone', "gender", "password");
+	$header = array("id","first name", "last name", 'email','phone', "gender");
 	$data = $pdf->getDataFrmFile();
-	$pdf->SetFont('Arial', '', 14);
-	$pdf->AddPage();
-	$pdf->getSimpleTable($header,$data);
-	$pdf->Output("user.pdf", 'D');
+    if ($data) {
+        $pdf->SetFont('Arial', '', 14);
+        $pdf->AddPage();
+        $pdf->getSimpleTable($header,$data);
+        $pdf->Output("user.pdf", 'D');
+    }
 }

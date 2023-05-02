@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $last_name = $_REQUEST['lname'];
     $email = $_REQUEST['email'];
     $password = $_REQUEST['password'];
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $gender = $_REQUEST['gender'];
     $phone = $_REQUEST['phone'];
     $res = updateUser($id, $first_name, $last_name, $phone, $email, $password, $gender);
@@ -69,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group row">
                 <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" value="<?php echo $data["password"] ?>" id="inputPassword3" placeholder="Password" name="password" required>
+                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password" name="password" required>
                 </div>
             </div>
             <div class="form-group row">
