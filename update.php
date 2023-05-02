@@ -18,8 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_REQUEST['password'];
     $gender = $_REQUEST['gender'];
     $phone = $_REQUEST['phone'];
-    $fullname = $first_name . ' ' . $last_name;
-    $res = updateUser($id, $fullname, $phone, $email, $password, $gender);
+    $res = updateUser($id, $first_name, $last_name, $phone, $email, $password, $gender);
     if ($res) {
         header("Location: http://localhost/phpLearn/assignment3/PHP-assignment/home.php", true, 302);
     } else {
@@ -52,13 +51,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group row">
                 <label for="FirstName" class="col-sm-2 col-form-label">First name</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" value="<?php echo explode(' ', $data["full_names"])[0] ?>" id="FirstName" placeholder="First Name" name="fname" required>
+                    <input type="text" class="form-control" value="<?php echo $data['first_name'] ?>" id="FirstName" placeholder="First Name" name="fname" required>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="LastName" class="col-sm-2 col-form-label">Last name</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="LastName" value="<?php echo explode(' ', $data["full_names"])[1] ?>" placeholder="last name" name="lname" required>
+                    <input type="text" class="form-control" id="LastName" value="<?php echo $data['last_name'] ?>" placeholder="last name" name="lname" required>
                 </div>
             </div>
             <div class="form-group row">

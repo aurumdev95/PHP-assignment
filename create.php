@@ -16,11 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $last_name = $_REQUEST['lname'];
     $email = $_REQUEST['email'];
     $password = $_REQUEST['password'];
-    $password = password_hash($password, PASSWORD_BCRYPT);
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $gender = $_REQUEST['gender'];
     $phone = $_REQUEST['phone'];
-    $fullname = $first_name . ' ' . $last_name;
-    $res = createUser($fullname, $phone, $email, $password, $gender);
+    $res = createUser($first_name, $last_name, $phone, $email, $password, $gender);
     if ($res) {
         header("Location: http://localhost/phpLearn/assignment3/PHP-assignment/home.php", true, 302);
     } else {

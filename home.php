@@ -40,7 +40,8 @@ try {
                 <thead>
                     <tr>
                         <th scope="col">id</th>
-                        <th scope="col">full names</th>
+                        <th scope="col">first name</th>
+                        <th scope="col">last name</th>
                         <th scope="col">email</th>
                         <th scope="col">phone</th>
                         <th scope="col">password</th>
@@ -53,19 +54,24 @@ try {
                     <?php
 
                     $data = getAllUsers();
-                    foreach ($data as $row) {
-                        echo "<tr>";
-                        // echo "<td scope='row'>hello</td>";
-                        echo "<td scope='row'>" . $row['id'] . "</td>";
-                        echo "<td>" . $row['full_names'] . "</td>";
-                        echo "<td>" . $row['email'] . "</td>";
-                        echo "<td>" . $row['phone'] . "</td>";
-                        echo "<td>" . $row['password'] . "</td>";
-                        echo "<td>" . $row['gender'] . "</td>";
-                        echo "<td><a href='update.php/?id=" . $row["id"] . "' class='btn btn-primary'>update</a></td>";
-                        $url = $_SERVER['PHP_SELF']."?id=".$row['id'];
-                        echo "<td><a href=$url class='btn btn-danger'>delete</a></td>";
-                        echo "</tr>";
+                    if ($data) {
+                        foreach ($data as $row) {
+                            echo "<tr>";
+                            // echo "<td scope='row'>hello</td>";
+                            echo "<td scope='row'>" . $row['id'] . "</td>";
+                            echo "<td>" . $row['first_name'] . "</td>";
+                            echo "<td>" . $row['last_name'] . "</td>";
+                            echo "<td>" . $row['email'] . "</td>";
+                            echo "<td>" . $row['phone'] . "</td>";
+                            echo "<td>" . $row['password'] . "</td>";
+                            echo "<td>" . $row['gender'] . "</td>";
+                            echo "<td><a href='update.php/?id=" . $row["id"] . "' class='btn btn-primary'>update</a></td>";
+                            $url = $_SERVER['PHP_SELF']."?id=".$row['id'];
+                            echo "<td><a href=$url class='btn btn-danger'>delete</a></td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<h3 class='text-light'>no users found, click add new users</h3>";
                     }
                     $GLOBALS['conn']->close();
                     ?>

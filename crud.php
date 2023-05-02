@@ -4,7 +4,7 @@ require('fpdf.php');
 
 function getAllUsers()
 {
-    $sql = "SELECT * FROM users ORDER BY id DESC";
+    $sql = "SELECT `id`, `first_name`, `last_name`, `email`, `phone`, `password`, `gender` FROM users ORDER BY id DESC";
     $result = $GLOBALS['conn']->query($sql);
     $data = [];
     if ($result->num_rows > 0) {
@@ -19,7 +19,7 @@ function getAllUsers()
 
 function getUser($id)
 {
-    $sql = "SELECT * FROM users WHERE id='$id' ORDER BY id DESC";
+    $sql = "SELECT `id`, `first_name`, `last_name`, `email`, `phone`, `password`, `gender` FROM users WHERE id='$id' ORDER BY id DESC";
     $result = $GLOBALS['conn']->query($sql);
     $data = [];
     if ($result->num_rows > 0) {
@@ -31,9 +31,9 @@ function getUser($id)
         return null;
     }
 }
-function createUser($full_names, $phone, $email, $password, $gender)
+function createUser($first_name,$last_name, $phone, $email, $password, $gender)
 {
-    $sql = "INSERT INTO `users`(`full_names`, `phone`, `email`, `password`, `gender`) VALUES ('$full_names','$phone','$email','$password','$gender')";
+    $sql = "INSERT INTO `users`(`first_name`, `last_name`,`phone`, `email`, `password`, `gender`) VALUES ('$first_name', '$last_name','$phone','$email','$password','$gender')";
     $result = $GLOBALS['conn']->query($sql);
     if ($result == TRUE) {
         echo "New record created successfully.";
@@ -43,9 +43,9 @@ function createUser($full_names, $phone, $email, $password, $gender)
         return false;
     }
 }
-function updateUser($user_id, $full_names, $phone, $email, $password, $gender)
+function updateUser($user_id, $first_name, $last_name, $phone, $email, $password, $gender)
 {
-    $sql = "UPDATE `users` SET `full_names`='$full_names',`phone`='$phone',`email`='$email',`password`='$password',`gender`='$gender' WHERE `id`='$user_id'";
+    $sql = "UPDATE `users` SET `first_name`='$first_name', `last_name`='$last_name', `phone`='$phone',`email`='$email',`password`='$password',`gender`='$gender' WHERE `id`='$user_id'";
     echo $sql;
     $result = $GLOBALS['conn']->query($sql);
     if ($result == TRUE) {
@@ -153,7 +153,7 @@ class PDF extends FPDF {
 function generatePDF()
 {
     $pdf = new PDF();
-	$header = array("id","Full names",'email','phone', "gender", "password");
+	$header = array("id","first name", "last name", 'email','phone', "gender", "password");
 	$data = $pdf->getDataFrmFile();
 	$pdf->SetFont('Arial', '', 14);
 	$pdf->AddPage();
