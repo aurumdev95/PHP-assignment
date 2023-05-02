@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $last_name = $_REQUEST['lname'];
     $email = $_REQUEST['email'];
     $password = $_REQUEST['password'];
+    $password = password_hash($password, PASSWORD_BCRYPT);
     $gender = $_REQUEST['gender'];
     $phone = $_REQUEST['phone'];
     $fullname = $first_name . ' ' . $last_name;
