@@ -1,26 +1,33 @@
 <?php
-include "crud.php";
+include 'crud.php';
 // session_start();
-// if (isset($_POST['submit'])) {
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // echo "test";
-    echo "<script>form submited</script>";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {    
     $first_name = $_REQUEST['fname'];
     $last_name = $_REQUEST['lname'];
     $email = $_REQUEST['email'];
     $password = $_REQUEST['password'];
     $password = password_hash($password, PASSWORD_DEFAULT);
-    $gender = $_REQUEST['gender'];
-    $phone = $_REQUEST['phone'];
-    $res = createUser($first_name, $last_name, $phone, $email, $password, $gender);
+    $res = createAdmin($first_name, $last_name, $email, $password);
     if ($res) {
-        header("Location: http://localhost/phpLearn/assignment3/PHP-assignment/home.php", true, 302);
+        // session_start();
+        session_regenerate_id();
+		$_SESSION['loggedin'] = TRUE;
+		// $_SESSION['name'] = $_POST['username'];
+		// $_SESSION['id'] = $id;
+        header("Location: http://localhost/phpLearn/assignment3/PHP-assignment/home.php");
     } else {
         echo "<script>alert('error has occured');</script>";
     }
     $GLOBALS['conn']->close();
 }
 ?>
+
+
+
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>create user</title>
+    <title>sign up</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
@@ -40,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <main class="container-fluid d-flex flex-column justify-content-center">
         <form class="container bg-white p-3 mt-3" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Create a new user</h2><a href="home.php" class="btn btn-primary">back Home</a>
+                <h2>Sign up</h2><a href="home.php" class="btn btn-primary">back Home</a>
             </div>
             <div class="form-group row">
                 <label for="FirstName" class="col-sm-2 col-form-label">First name</label>
@@ -67,33 +74,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
             <div class="form-group row">
-                <label for="inputPhone3" class="col-sm-2 col-form-label">Phone</label>
                 <div class="col-sm-10">
-                    <input type="tel" class="form-control" id="inputPhone3" placeholder="Phone" name="phone" required minlength="10" maxlength="10">
-                </div>
-            </div>
-            <fieldset class="form-group">
-                <div class="row">
-                    <legend class="col-form-label col-sm-2 pt-0">gender</legend>
-                    <div class="col-sm-10">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="gridRadios1" value="male" checked>
-                            <label class="form-check-label" for="gridRadios1">
-                                male
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="gridRadios2" value="female">
-                            <label class="form-check-label" for="gridRadios2">
-                                female
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-            <div class="form-group row">
-                <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                    <a href="login.php" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="#">
+                        already have an account, login.
+                    </a>
                 </div>
             </div>
         </form>

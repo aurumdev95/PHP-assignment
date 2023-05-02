@@ -1,6 +1,11 @@
 <?php
 include "crud.php";
-
+// session_start();
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggedin'])) {
+	header('Location: http://localhost/phpLearn/assignment3/PHP-assignment/login.php');
+	exit;
+}
 try {
     $id = @$_GET['id'];
     $res = deleteUser($id);
@@ -40,32 +45,40 @@ try {
                 <thead>
                     <tr>
                         <th scope="col">id</th>
-                        <th scope="col">full names</th>
+                        <th scope="col">first name</th>
+                        <th scope="col">last name</th>
                         <th scope="col">email</th>
                         <th scope="col">phone</th>
-                        <th scope="col">password</th>
+                        <!-- <th scope="col">password</th> -->
                         <th scope="col">gender</th>
                         <th scope="col"><a href="create.php" class="btn btn-primary">add user</a></th>
-                        <th scope="col"><a href="<?php echo $_SERVER['PHP_SELF']."?pdf=pdf"; ?>" class="btn btn-primary">export</a></th>
+                        <th scope="col"><a href="<?php echo $_SERVER['PHP_SELF'] . "?pdf=pdf"; ?>" class="btn btn-primary">export</a></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
 
                     $data = getAllUsers();
-                    foreach ($data as $row) {
-                        echo "<tr>";
-                        // echo "<td scope='row'>hello</td>";
-                        echo "<td scope='row'>" . $row['id'] . "</td>";
-                        echo "<td>" . $row['full_names'] . "</td>";
-                        echo "<td>" . $row['email'] . "</td>";
-                        echo "<td>" . $row['phone'] . "</td>";
-                        echo "<td>" . $row['password'] . "</td>";
-                        echo "<td>" . $row['gender'] . "</td>";
-                        echo "<td><a href='update.php/?id=" . $row["id"] . "' class='btn btn-primary'>update</a></td>";
-                        $url = $_SERVER['PHP_SELF']."?id=".$row['id'];
-                        echo "<td><a href=$url class='btn btn-danger'>delete</a></td>";
-                        echo "</tr>";
+                    if ($data) {
+                        foreach ($data as $row) {
+                            echo "<tr>";
+                            // echo "<td scope='row'>hello</td>";
+                            echo "<td scope='row'>" . $row['id'] . "</td>";
+                            echo "<td>" . $row['first_name'] . "</td>";
+                            echo "<td>" . $row['last_name'] . "</td>";
+                            echo "<td>" . $row['email'] . "</td>";
+                            echo "<td>" . $row['phone'] . "</td>";
+                            // echo "<td>" . $row['password'] . "</td>";
+                            echo "<td>" . $row['gender'] . "</td>";
+                            echo "<td><a href='update.php/?id=" . $row["id"] . "' class='btn btn-primary'>update</a></td>";
+                            $url = $_SERVER['PHP_SELF'] . "?id=" . $row['id'];
+                            echo "<td><a href=$url class='btn btn-danger'>delete</a></td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<div class='alert alert-info' role='alert'>
+                        No users found, click on add user to insert new user.
+                      </div>";
                     }
                     $GLOBALS['conn']->close();
                     ?>
