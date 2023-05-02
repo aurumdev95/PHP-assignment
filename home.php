@@ -1,6 +1,11 @@
 <?php
 include "crud.php";
-
+// session_start();
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggedin'])) {
+	header('Location: http://localhost/phpLearn/assignment3/PHP-assignment/login.php');
+	exit;
+}
 try {
     $id = @$_GET['id'];
     $res = deleteUser($id);
@@ -47,7 +52,7 @@ try {
                         <!-- <th scope="col">password</th> -->
                         <th scope="col">gender</th>
                         <th scope="col"><a href="create.php" class="btn btn-primary">add user</a></th>
-                        <th scope="col"><a href="<?php echo $_SERVER['PHP_SELF']."?pdf=pdf"; ?>" class="btn btn-primary">export</a></th>
+                        <th scope="col"><a href="<?php echo $_SERVER['PHP_SELF'] . "?pdf=pdf"; ?>" class="btn btn-primary">export</a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,12 +71,14 @@ try {
                             // echo "<td>" . $row['password'] . "</td>";
                             echo "<td>" . $row['gender'] . "</td>";
                             echo "<td><a href='update.php/?id=" . $row["id"] . "' class='btn btn-primary'>update</a></td>";
-                            $url = $_SERVER['PHP_SELF']."?id=".$row['id'];
+                            $url = $_SERVER['PHP_SELF'] . "?id=" . $row['id'];
                             echo "<td><a href=$url class='btn btn-danger'>delete</a></td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<h3 class='text-light'>no users found, click add new users insert new users.</h3>";
+                        echo "<div class='alert alert-info' role='alert'>
+                        No users found, click on add user to insert new user.
+                      </div>";
                     }
                     $GLOBALS['conn']->close();
                     ?>

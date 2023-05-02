@@ -1,6 +1,6 @@
 <?php
 include "crud.php";
-
+// session_start();
 
 $id = $_GET['id'];
 
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>PHP CRUD</h1>
     </header>
     <main class="container-fluid d-flex flex-column justify-content-center">
-        <form class="container bg-white p-3 mt-3" action="<?php echo $_SERVER['PHP_SELF']."?id=$id"; ?>" method="post">
+        <form class="container bg-white p-3 mt-3" action="<?php echo $_SERVER['PHP_SELF'] . "?id=$id"; ?>" method="post">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>update User</h2><a href="http://localhost/phpLearn/assignment3/PHP-assignment/home.php" class="btn btn-primary">back Home</a>
             </div>
