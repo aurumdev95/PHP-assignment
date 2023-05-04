@@ -18,9 +18,10 @@ function getAllUsers()
     }
 }
 
-function getUser($email)
+function getAdmin($email)
 {
-    $sql = "SELECT `id`, `first_name`, `last_name`, `email`, `phone`, `password`, `gender` FROM users WHERE email='$email' ORDER BY id DESC";
+    $sql = "SELECT `id`, `password` FROM admins WHERE email='$email'";
+    // echo "<script>alert('$sql')</script>";
     $result = $GLOBALS['conn']->query($sql);
     $data = [];
     if ($result->num_rows > 0) {
@@ -32,9 +33,9 @@ function getUser($email)
         return null;
     }
 }
-function getAdmin($id)
+function getUser($id)
 {
-    $sql = "SELECT `id`, `first_name`, `last_name`, `email`, `password` FROM admins WHERE id='$id'";
+    $sql = "SELECT `id`, `first_name`, `last_name`, `phone`, `gender`, `email`, `password` FROM users WHERE id='$id'";
     $result = $GLOBALS['conn']->query($sql);
     $data = [];
     if ($result->num_rows > 0) {
@@ -198,4 +199,42 @@ function generatePDF()
         $pdf->getSimpleTable($header, $data);
         $pdf->Output("user.pdf", 'D');
     }
+}
+
+// Load the database configuration file 
+
+function generateCSV()
+{
+
+    // Fetch records from database 
+
+    $data = getAllUsers();
+    if (count($data) > 0) {
+        $delimiter = ",";
+        $filename = "users-data_" . date('Y-m-d') . ".csv";
+
+        // Create a file pointer 
+        $f = fopen('php://memory', 'w');
+
+        // Set column headers 
+        $fields = array("id", "first name", "last name", 'email', 'phone', "gender");
+        fputcsv($f, $fields, $delimiter);
+
+        // Output each row of the data, format line as csv and write to file pointer 
+        foreach ($data as $row) {
+            // $status = ($row['status'] == 1) ? 'Active' : 'Inactive';
+            $lineData = array($row['id'], $row['first_name'], $row['last_name'], $row['email'], $row['phone'], $row['gender']);
+            fputcsv($f, $lineData, $delimiter);
+        }
+
+        // Move back to beginning of file 
+        fseek($f, 0);
+        // Set headers to download file rather than displayed 
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $filename . '";');
+
+        //output all remaining data on a file pointer 
+        fpassthru($f);
+    }
+    exit;
 }

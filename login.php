@@ -1,24 +1,24 @@
 <?php
 include 'crud.php';
 // session_start();
+// session_destroy();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_REQUEST['email'];
     $password = $_REQUEST['password'];
     $data = getAdmin($email);
-    print_r($data);
+    // print_r($data);
     if ($data) {
         $user = $data[0];
         if (password_verify($password, $user['password'])) {
             session_regenerate_id();
-            // session_start();
             $_SESSION['loggedin'] = TRUE;
             header("Location: http://localhost/phpLearn/assignment3/PHP-assignment/home.php");
         } else {
             header("Location: http://localhost/phpLearn/assignment3/PHP-assignment/login.php?error=true");
         }
     } else {
-        header("Location: http://localhost/phpLearn/assignment3/PHP-assignment/login.php?error=true");
+        header("Location: http://localhost/phpLearn/assignment3/PHP-assignment/login.php?error=trueyes");
     }
     $GLOBALS['conn']->close();
 }
